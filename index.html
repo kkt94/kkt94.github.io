@@ -1,134 +1,16 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Keuntae Kim — CV">
-<title>Keuntae Kim — CV</title>
-<style>
-:root{--fg:#111827;--muted:#4b5563;--line:#e5e7eb;--accent:#0f172a;--bg:#fff}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
-main{max-width:980px;margin:0 auto;padding:48px 28px 80px}
-h1{font-size:38px;line-height:1.1;margin:0 0 8px} h2{font-size:21px;margin:38px 0 14px;padding-bottom:7px;border-bottom:1px solid var(--line)}
-h3{font-size:16px;margin:20px 0 6px} p{margin:7px 0} ul,ol{margin:8px 0 0;padding-left:22px} li{margin:5px 0}
-.meta{color:var(--muted);margin-bottom:22px}.meta a{color:inherit}.tag{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:2px 9px;margin:3px 5px 3px 0;font-size:13px;color:var(--muted)}
-.item{margin:18px 0}.when{float:right;color:var(--muted);font-weight:400}.sub{color:var(--muted)} .pubs li{margin:10px 0}
-@media(max-width:640px){main{padding:30px 18px 60px}.when{float:none;display:block}h1{font-size:32px}}
-@media print{main{max-width:none;padding:0}a{color:inherit;text-decoration:none}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="refresh" content="0; url=./CV_KeuntaeKim_260929.pdf">
+  <meta name="description" content="Keuntae Kim's curriculum vitae">
+  <title>Keuntae Kim — CV</title>
 </head>
 <body>
-<main>
-<header>
-<h1>Keuntae Kim</h1>
-<div class="meta">PhD Candidate, Department of Computer Science, Hanyang University<br>
-<a href="mailto:ktkpv94@hanyang.ac.kr">ktkpv94@hanyang.ac.kr</a> · <a href="https://github.com/kkt94">github.com/kkt94</a> · Seoul, South Korea</div>
-</header>
-
-<h2>Summary</h2>
-<p>PhD Candidate at Hanyang University working on two threads. <strong>Interpretability &amp; Safety:</strong> white-box use of model internals — attention, entropy, confidence dynamics — to detect hallucination, assess reasoning quality, and steer decoding without retraining. <strong>LLM / VLM (Video-LLM) Post-training:</strong> RLVR and policy optimization, agentic RL for stateful agents, multimodal alignment, and continual learning, across LLMs and Video-LLMs.</p>
-<p>This has produced 5 first-author papers at NeurIPS 2025 / CVPR 2026 / ICML 2026 / EMNLP 2026 / NeurIPS 2026 and 5 first-author submissions under review at ICLR 2027 and Nature. I also own the distributed training stack end-to-end, training LLMs and VLMs on up to 32 H100s (4 nodes × 8) across Samsung SDS Cloud, NHN Cloud (B200), and AWS (H200). Researcher on two Korean national AI projects (NRF, IITP); reviewer for NeurIPS, ICLR, ICML, CVPR, ECCV, and ACL ARR.</p>
-
-<h2>Experiences</h2>
-<div class="item"><h3>Large-Scale &amp; Multi-Node Training Experience <span class="when">Samsung SDS Cloud · NHN Cloud · AWS</span></h3>
-<p>Hands-on owner of end-to-end distributed training for LLMs and VLMs on three production GPU clouds — cluster bring-up, NCCL / RDMA validation, parallelism strategy, and fault-tolerant multi-day runs.</p>
-<ul>
-<li><strong>Samsung SDS Cloud:</strong> NVIDIA H100 SXM (80 GB), 4 nodes × 8 GPUs, 32 GPUs; NVLink/NVSwitch intra-node, RDMA inter-node.</li>
-<li><strong>NHN Cloud:</strong> NVIDIA B200 (Blackwell), 2 nodes × 8 GPUs, 16 GPUs; FP8/BF16 mixed-precision training.</li>
-<li><strong>AWS:</strong> NVIDIA H200 SXM (141 GB), 2 nodes × 8 GPUs, 16 GPUs; EFA/RDMA multi-node fabric, HBM3e-enabled long-context training.</li>
-<li><strong>Parallelism &amp; memory:</strong> DeepSpeed ZeRO-3, PyTorch FSDP, Megatron tensor / pipeline parallelism, activation checkpointing, Liger kernels, torch.compile, FlashAttention-2/3, BF16 / FP8.</li>
-<li><strong>Workloads:</strong> full-parameter and LoRA fine-tuning of 7B–30B LLMs; VLM / Video-LLM multimodal training; RLVR / policy optimization (GRPO, PPO) on verl, NeMo-RL, and slime with vLLM-backed distributed rollouts.</li>
-<li><strong>Cluster stack:</strong> SLURM, Ray, Data-Juicer, NeMo Curator, lm-evaluation-harness, OpenCompass, EvalScope, Megatron-Bridge, checkpoint-engine, W&amp;B.</li>
-</ul></div>
-
-<div class="item"><h3>Heat-GRPO — Heat-Kernel Policy Optimization for Multi-Rubric RL <span class="when">ICLR 2027 (under review)</span></h3>
-<ul><li>Built a multi-rubric RL (RLAIF) training pipeline in verl (FSDP + async vLLM rollouts) with a served Qwen3-32B LLM-judge returning per-rubric YES/NO log-prob margins as rewards.</li>
-<li>Implemented and trained GRPO, GDPO, GD2PO, and Heat-GRPO on 6 policies × 4 benchmarks × 3 seeds on H100s — 288 full RL runs.</li>
-<li>Heat-GRPO achieved the best mean in 23/24 conditions (up to +25%), held up under 3 additional judges, and cut advantage-computation cost by ~39% vs. GDPO / GD2PO.</li></ul></div>
-
-<div class="item"><h3>What Gets Deployed? — Deployment Accounting for Stateful Agents <span class="when">ICLR 2027 (under review)</span></h3>
-<ul><li>Trained LLM agents with multi-turn RL in interactive environments (ALFWorld, WebShop) using verl-agent + Ray: Qwen2.5-7B, full-parameter FSDP on 4×H100, 16 sandboxed environment rollouts per task, 50-step horizons.</li>
-<li>Implemented and compared 10 agentic RL credit-assignment variants and exploratory AppWorld runs.</li>
-<li>Built deployment-accounting evaluation (commit / wrong-commit / abstain): trained policies reached 72.5% / 71.3% committed success on seen / unseen rooms vs. 62.9% / 60.5% for GRPO, with outcome selection adding 9–13 points.</li></ul></div>
-
-<div class="item"><h3>Subliminal RL — Tracing a Trait from Emission to Absorption <span class="when">Nature (under review)</span></h3>
-<ul><li>Decomposed trait transfer through reward signals into emission, transmission through a semantically empty carrier, and absorption.</li><li>Built prompt-level vs. weight-level trait loading, zero-propositional-content carriers, trait-ablated controls, disjoint readout items, and fixed decision rules.</li><li>Added an observer axis separating semantic readability from statistical distinguishability.</li></ul></div>
-
-<div class="item"><h3>Revisiting Continual Learning: A Three-Interface Diagnosis of Stability and Plasticity <span class="when">NeurIPS 2026 — Main</span></h3>
-<ul><li>Showed BWT and FWT are interface-dependent across sequential head, fresh probe, and classifier-free backbone diagnostics.</li><li>Found a backbone-level stability–plasticity trade-off negative in all 150 clustering configurations (mean r = −0.74) across 7 datasets, multiple backbones up to 8B, and 8+ IL methods.</li><li>Introduced Just LM-Head Tuning (JLT), recovering +53 to +64 accuracy points on frozen incrementally trained backbones.</li></ul></div>
-
-<div class="item"><h3>CLAWS — Creativity Detection for LLM-Generated Solutions <span class="when">NeurIPS 2025 — Main</span></h3>
-<ul><li>Proposed a white-box detector using attention across prompt sections vs. output to classify solutions as Typical / Creative / Hallucinated.</li><li>Validated on five 7–8B math RL models over 4,545 problems from 181 contests, outperforming five white-box baselines.</li></ul></div>
-
-<div class="item"><h3>Thinking Diffusion — Visual-Grounded Reasoning for Diffusion MLLMs <span class="when">CVPR 2026 — Main</span></h3>
-<ul><li>Conducted the first quantitative analysis of CoT reasoning in dMLLMs, identifying Early Answer Generation and weak early-step visual grounding.</li><li>Proposed training-free Position &amp; Step Penalty (PSP) and Visual Reasoning Guidance (VRG), yielding up to +7.5% accuracy and &gt;3× faster inference vs. baselines using 4× more diffusion steps.</li></ul></div>
-
-<div class="item"><h3>ST-Veto — Spatio-Temporal Token Veto for Diffusion MLLMs <span class="when">ICML 2026 — Main</span></h3>
-<ul><li>Designed a training-free decoding-time veto-and-swap mechanism using confidence dynamics and visual grounding.</li><li>Achieved up to +9% accuracy over baseline decoding and prior VLM reasoning methods with zero extra training or generation cost.</li></ul></div>
-
-<div class="item"><h3>Projector-JEPA — Two-Expert Residual Projector for Video-LLMs <span class="when">ICLR 2027 (under review)</span></h3>
-<ul><li>Proposed a two-expert residual projector (Local Expert + State Expert, both Gated DeltaNet) that models inter-frame motion and world dynamics.</li><li>Introduced JEPA-style auxiliary objectives and trained an ~80K-parameter module for one epoch on 70K public samples, yielding up to ~7% gains across 7 Video-LLMs on 5 benchmarks.</li></ul></div>
-
-<h2>Education</h2>
-<div class="item"><strong>Hanyang University, Ph.D. in Computer Science</strong><span class="when">Sep. 2023 – Present</span><div class="sub">Advisor: Prof. Yong Suk Choi · Seoul, Korea</div></div>
-<div class="item"><strong>Hanyang University, M.S. in Computer Science</strong><span class="when">Sep. 2021 – Aug. 2023</span><div class="sub">Advisor: Prof. Yong Suk Choi · Seoul, Korea</div></div>
-<div class="item"><strong>Kookmin University, B.S. in Automobile and IT Convergence</strong><span class="when">Mar. 2015 – Aug. 2019</span><div class="sub">Seoul, Korea</div></div>
-
-<h2>Research Interests</h2>
-<div>
-<span class="tag">LLM / VLM Post-training</span><span class="tag">Interpretability, Alignment &amp; Safety</span><span class="tag">Agentic Reinforcement Learning</span><span class="tag">RLVR</span><span class="tag">Video-LLMs</span><span class="tag">World Models</span><span class="tag">Vision-Language-Action</span><span class="tag">Continual Learning</span><span class="tag">Diffusion LLMs / MLLMs</span>
-</div>
-
-<h2>Publications (Journals &amp; Conferences)</h2>
-<ol class="pubs">
-<li><strong>Keuntae Kim</strong>, Yong Suk Choi. “CFP-AL: Combining Model Features and Prediction for Active Learning in Sentence Classification.” <em>Applied Sciences</em>, 2025. Published.</li>
-<li><strong>Keuntae Kim</strong>, Eunhye Jeong, Sehyeon Lee, Seohee Yoon, Yong Suk Choi. “CLAWS: Creativity detection for LLM-generated solutions using Attention Window of Sections.” <em>NeurIPS 2025 — Main</em>. Published.</li>
-<li><strong>Keuntae Kim</strong>, Mingyu Kang, Yong Suk Choi. “Thinking Diffusion: Penalize and Guide Visual-Grounded Reasoning in Diffusion Multimodal Language Models.” <em>CVPR 2026 — Main</em>. Published.</li>
-<li><strong>Keuntae Kim</strong>, Beomseok Lee, Hyunwoo Kim, Yong Suk Choi. “ST-Veto: Spatio-Temporal Token Veto for Diffusion MLLMs via Taylor Prediction and Visual Grounding.” <em>ICML 2026 — Main</em>. Published.</li>
-<li><strong>Keuntae Kim</strong>, Eunhye Jeong, Yong Suk Choi. “CWM: Controllable White-Box Meta-Prompting for Adaptive Retrieval-Augmented Generation and Reasoning Ability.” <em>Findings of EMNLP 2026</em>. Published.</li>
-<li><strong>Keuntae Kim</strong>, Beomseok Lee, Hyunwoo Kim, Yong Suk Choi. “Revisiting Continual Learning: A Three-Interface Diagnosis of Stability and Plasticity.” <em>NeurIPS 2026 — Main</em>. Published.</li>
-<li><strong>Keuntae Kim</strong>, Yong Suk Choi. “Two Clocks in Diffusion MLLMs: Answer Stabilization and Rationale Writing.” <em>NeurIPS 2026 — Workshop (BeNTo)</em>. Published.</li>
-<li><strong>Keuntae Kim</strong>, Beomseok Lee, Hyunwoo Kim, Yong Suk Choi. “Heat-GRPO: Heat-Kernel Group Relative Policy Optimization for Multi-Rubric Reinforcement Learning.” <em>ICLR 2027</em> (under review).</li>
-<li><strong>Keuntae Kim</strong>, JungHyoun Kim, Dongjun Kim, HyeongSeok Kang, Yong Suk Choi. “Projector-JEPA: A Gated DeltaNet Two-Expert Residual Projector Bridging Video-LLMs to World-Dynamics Understanding.” <em>ICLR 2027</em> (under review).</li>
-<li><strong>Keuntae Kim</strong>, Eunhye Jeong, Sehyeon Lee, Seohee Yoon, Yong Suk Choi. “Can RLVR Models Think More Creatively? A Study of Overconfidence and High Entropy Segment.” <em>ICLR 2027</em> (under review).</li>
-<li><strong>Keuntae Kim</strong>, Yong Suk Choi. “Subliminal Reinforcement Learning: Tracing a Trait from Emission to Absorption.” <em>Nature</em> (under review).</li>
-<li>Beomseok Lee, <strong>Keuntae Kim</strong>, Hyunwoo Kim, Yong Suk Choi. “What Gets Deployed? Deployment Accounting for Stateful Agents.” <em>ICLR 2027</em> (under review).</li>
-<li>JungHyoun Kim, <strong>Keuntae Kim</strong>, HyeongSeok Kang, Dongjun Kim, Yong Suk Choi. “Fourier-World: Temporal Fourier States for Visual World Models.” <em>ICLR 2027</em> (under review).</li>
-<li>Dongjun Kim, <strong>Keuntae Kim</strong>, JungHyoun Kim, HyeongSeok Kang, Yong Suk Choi. “Complete the Scene, Cover the Video: Recurrent Token Compression for Video LLMs.” <em>ICLR 2027</em> (under review).</li>
-</ol>
-
-<h2>Research Grants &amp; Funded Projects</h2>
-<ul>
-<li>Metacognitive AGI Framework and its Applications — IITP. Lead Researcher (Jul. 2025 – Present).</li>
-<li>Metacognitive Generative AI Framework for Mitigating Hallucination in LLMs — NRF. Lead Researcher (Feb. 2025 – Present).</li>
-<li>Big Data–based Real-time Monitoring and Social Simulation System — NRF. Lead Researcher, Group 3 (Sep. 2021 – Feb. 2025).</li>
-<li>High-performance Deep Learning via Cross-connection of Autoencoders and Decoders — NRF. Researcher (Sep. 2021 – Feb. 2024).</li>
-<li>Natural Language Data Refinement for Large-scale LM Construction — KT Corp. Researcher (Sep. 2021 – Jul. 2022).</li>
-</ul>
-
-<h2>Patents (Korea)</h2>
-<ul><li>“Fusion of Sparse-Dense and Global Attention for Video Action Recognition,” KR 10-2024-0132801.</li><li>“Device and Method for Correcting Toxic Words in Sentence,” KR 10-2024-0143175.</li><li>“Method and Device for Displaying Emotion Map Animation,” KR 10-2024-0152245.</li><li>“Method for Analysing Emotion Based on SNS Data,” KR 10-2023-0193546.</li></ul>
-
-<h2>Technical Skills</h2>
-<ul>
-<li><strong>Training:</strong> PyTorch, DeepSpeed (ZeRO-2/3), PyTorch FSDP, Megatron-LM, ms-swift, LLaMA-Factory, HF Accelerate, PEFT/LoRA, Liger kernels, bitsandbytes.</li>
-<li><strong>RL &amp; post-training:</strong> verl, verl-agent, NeMo-RL, slime, TRL; GRPO / PPO / RLVR / multi-turn agentic RL with vLLM rollouts.</li>
-<li><strong>Distributed &amp; HPC:</strong> multi-node training up to 32×H100 / 4 nodes, SLURM, Ray, NCCL over InfiniBand / RoCE / AWS EFA, torchrun, tensor / pipeline parallelism, FlashAttention-2/3, BF16 &amp; FP8.</li>
-<li><strong>Data &amp; evaluation:</strong> Data-Juicer, NeMo Curator, lm-evaluation-harness, OpenCompass, EvalScope.</li>
-<li><strong>GPU platforms:</strong> NVIDIA H100 / H200 / B200 (Blackwell), A100; Samsung SDS Cloud, NHN Cloud, AWS.</li>
-<li><strong>Serving &amp; inference:</strong> vLLM, SGLang, TensorRT-LLM, HF TGI, ONNX Runtime, llama.cpp.</li>
-<li><strong>Languages:</strong> Python, C/C++, CUDA, JavaScript, TypeScript, Java, SQL.</li>
-<li><strong>Web &amp; backend:</strong> Flask, FastAPI, Django, Node.js, React, REST APIs, WebSocket.</li>
-<li><strong>Infra:</strong> Linux, Docker, Git, W&amp;B, MLflow, TensorBoard, NVIDIA Nsight / PyTorch Profiler.</li>
-</ul>
-
-<h2>Awards &amp; Honors</h2>
-<ul><li>NeurIPS 2025 Scholar Award.</li><li>BK21 FOUR Scholarship — Korean government-funded research fellowship, 2021 – Present.</li></ul>
-
-<h2>Academic Service &amp; Activities</h2>
-<p><strong>Conference Reviewer:</strong> NeurIPS 2026 · ICLR 2027 · ICML 2026 · CVPR 2026 · ECCV 2026 · ACL Rolling Review 2026.01 – Present.</p>
-<p><strong>Workshop Presentation:</strong> NeurIPS 2026 BeNTo Workshop — “Two Clocks in Diffusion MLLMs: Answer Stabilization and Rationale Writing.”</p>
-</main>
+  <p><a href="./CV_KeuntaeKim_260929.pdf">Open CV</a></p>
+  <script>
+    window.location.replace('./CV_KeuntaeKim_260929.pdf');
+  </script>
 </body>
 </html>
